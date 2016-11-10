@@ -1,0 +1,17 @@
+{
+  "repos": [
+    {
+      "name": "meme_coin",
+      "source": {
+        "name": "github",
+        "url": "git@github.com:SophisticaSean/meme_coin.git",
+       }
+      "mirrors": [
+        {
+          "name": "bitbucket",
+          "url": "git@bitbucket.org:sophisticasean/meme_coin.git",
+        },
+      ]
+    },
+  ]
+}
