@@ -113,7 +113,7 @@ func main() {
 				mirror := mirrors[i]
 				output, err := commandWrapper("git", []string{"push", mirror.Name, "master"})
 				if !strings.Contains(err, "up-to-date") {
-					fmt.Println("Pushing changes out to " + mirror.Name)
+					fmt.Println("Pushing changes from " + repo.Source.Name +" out to " + mirror.Name)
 					fmt.Println(output, err)
 				}
 			}
