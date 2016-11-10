@@ -12,5 +12,27 @@
       "name": "bitbucket",
       "url": "git@bitbucket.org:sophisticasean/meme_coin.git"
     }]
+  },{
+    "name": "load_testing",
+    "path": "/home/slewis/code/go/src/github.com/SophisticaSean/automatic_load_testing",
+    "source": {
+      "name": "origin",
+      "url": "git@github.com:mediaFORGE/automatic_load_testing.git"
+     },
+    "mirrors": [{
+      "name": "bitbucket",
+      "url": "git@bitbucket.org:sophisticasean/automatic_load_testing.git"
+    }]
+  },{
+    "name": "go_git_mirror",
+    "path": "/home/slewis/code/go/src/github.com/SophisticaSean/go_git_mirror",
+    "source": {
+      "name": "origin",
+      "url": "git@github.com:mediaFORGE/go_git_mirror.git"
+     },
+    "mirrors": [{
+      "name": "bitbucket",
+      "url": "git@bitbucket.org:sophisticasean/go_git_mirror.git"
+    }]
   }]
 }

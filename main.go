@@ -93,9 +93,10 @@ func mirrorInit(repos []Repos) {
 func main() {
 	fmt.Println("running")
 	blahinit()
-	mirrorInit(configuration.Repos)
+	//mirrorInit(configuration.Repos)
 	for {
 		updateConfiguration(configuration.HomePath)
+    mirrorInit(configuration.Repos)
 		for i := range configuration.Repos {
 			repo := configuration.Repos[i]
 			mirrors := repo.Mirrors
