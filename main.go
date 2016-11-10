@@ -78,9 +78,18 @@ func commandWrapper(firstArg string, commands []string) (out string, newErr stri
 	return out, newErr
 }
 
+func mirrorInit(repo Repos) (output string, err string) {
+	os.Chdir(repo.Path)
+	for i := range repo.Mirrors {
+		mirror := repo.Mirrors[i]
+		commandWrapper("git", []string{"remote", "add", mirror.Name, mirror.URL})
+	}
+}
+
 func main() {
 	fmt.Println("running")
 	blahinit()
+	mirrorInit(configuration.Repos)
 	for {
 		updateConfiguration(configuration.HomePath)
 		for i := range configuration.Repos {
