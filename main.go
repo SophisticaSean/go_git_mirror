@@ -82,6 +82,7 @@ func mirrorInit(repos []Repos) {
 	for i := range configuration.Repos {
 		repo := configuration.Repos[i]
 		os.Chdir(repo.Path)
+		commandWrapper("git", []string{"remote", "add", repo.Source.Name, repo.Source.URL})
 		for i := range repo.Mirrors {
 			mirror := repo.Mirrors[i]
 			commandWrapper("git", []string{"remote", "add", mirror.Name, mirror.URL})
