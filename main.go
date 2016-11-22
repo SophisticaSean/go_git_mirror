@@ -105,7 +105,7 @@ func main() {
 			}
 			output, _ := commandWrapper("git", []string{"pull", repo.Source.Name, "master"})
 			if !strings.Contains(output, "up-to-date") {
-				fmt.Println("Picked up changes from " + repo.Source.Name)
+				fmt.Println("Picked up changes from " + repo.Source.URL)
 				fmt.Println(output)
 			}
 			for i := range mirrors {
