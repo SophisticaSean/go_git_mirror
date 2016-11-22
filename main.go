@@ -93,9 +93,10 @@ func mirrorInit(repos []Repos) {
 func main() {
 	fmt.Println("running")
 	blahinit()
-	mirrorInit(configuration.Repos)
+	//mirrorInit(configuration.Repos)
 	for {
 		updateConfiguration(configuration.HomePath)
+    mirrorInit(configuration.Repos)
 		for i := range configuration.Repos {
 			repo := configuration.Repos[i]
 			mirrors := repo.Mirrors
@@ -112,7 +113,7 @@ func main() {
 				mirror := mirrors[i]
 				output, err := commandWrapper("git", []string{"push", mirror.Name, "master"})
 				if !strings.Contains(err, "up-to-date") {
-					fmt.Println("Pushing changes out to " + mirror.Name)
+					fmt.Println("Pushing changes from " + repo.Source.Name +" out to " + mirror.Name)
 					fmt.Println(output, err)
 				}
 			}
