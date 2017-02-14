@@ -9,14 +9,17 @@ import (
 	"os/exec"
 	"strings"
 	"time"
+
+	"github.com/davecgh/go-spew/spew"
 )
 
 // Repos is a struct representing a JSON configuration repo obj
 type Repos struct {
-	Name    string `json:"name"`
-	Path    string `json:"path"`
-	Source  Repo   `json:"source"`
-	Mirrors []Repo `json:"mirrors"`
+	Name     string   `json:"name"`
+	Path     string   `json:"path"`
+	Source   Repo     `json:"source"`
+	Branches []string `json:"branches"`
+	Mirrors  []Repo   `json:"mirrors"`
 }
 
 // Repo represents a single git repository
@@ -96,7 +99,7 @@ func main() {
 	//mirrorInit(configuration.Repos)
 	for {
 		updateConfiguration(configuration.HomePath)
-    mirrorInit(configuration.Repos)
+		mirrorInit(configuration.Repos)
 		for i := range configuration.Repos {
 			repo := configuration.Repos[i]
 			mirrors := repo.Mirrors
@@ -104,20 +107,28 @@ func main() {
 			if err != nil {
 				panic(err)
 			}
-			output, _ := commandWrapper("git", []string{"pull", repo.Source.Name, "master"})
-			if !strings.Contains(output, "up-to-date") {
-				fmt.Println("Picked up changes from " + repo.Source.URL)
-				fmt.Println(output)
-			}
-			for i := range mirrors {
-				mirror := mirrors[i]
-				output, err := commandWrapper("git", []string{"push", mirror.Name, "master"})
-				if !strings.Contains(err, "up-to-date") {
-					fmt.Println("Pushing changes from " + repo.Source.Name +" out to " + mirror.Name)
-					fmt.Println(output, err)
+			for _, branch := range repo.Branches {
+				// setup remote branch tracking
+				output, _ := commandWrapper("git", []string{"checkout", "-b", branch, "remotes/" + repo.Source.Name + "/", branch})
+				spew.Dump(output)
+				output, _ = commandWrapper("git", []string{"checkout", branch})
+				spew.Dump(output)
+				// sync the repos
+				output, _ = commandWrapper("git", []string{"pull", repo.Source.Name, branch})
+				if !strings.Contains(output, "up-to-date") {
+					fmt.Println("Picked up changes from " + repo.Source.URL)
+					fmt.Println(output)
 				}
+				for i := range mirrors {
+					mirror := mirrors[i]
+					output, err := commandWrapper("git", []string{"push", mirror.Name, branch})
+					if !strings.Contains(err, "up-to-date") {
+						fmt.Println("Pushing changes from " + repo.Source.Name + " out to " + mirror.Name)
+						fmt.Println(output, err)
+					}
+				}
+				//fmt.Println(configuration.Repos[i])
 			}
-			//fmt.Println(configuration.Repos[i])
 		}
 		time.Sleep(time.Duration(configuration.Interval) * time.Second)
 	}

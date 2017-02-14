@@ -8,6 +8,7 @@
       "name": "github",
       "url": "git@github.com:$USERNAME/meme_coin.git"
      },
+    "branches": ["sampleBranch1", "sampleBranch2", "sampleBranch3"],
     "mirrors": [{
       "name": "bitbucket",
       "url": "git@bitbucket.org:$USERNAME/meme_coin.git"
@@ -19,6 +20,7 @@
       "name": "origin",
       "url": "git@github.com:$ORG/automatic_load_testing.git"
      },
+    "branches": ["sampleBranch1", "sampleBranch2", "sampleBranch3"],
     "mirrors": [{
       "name": "bitbucket",
       "url": "git@bitbucket.org:$USERNAME/automatic_load_testing.git"
@@ -30,6 +32,7 @@
       "name": "origin",
       "url": "git@github.com:$ORG/go_git_mirror.git"
      },
+    "branches": ["sampleBranch1", "sampleBranch2", "sampleBranch3"],
     "mirrors": [{
       "name": "bitbucket",
       "url": "git@bitbucket.org:/go_git_mirror.git"
