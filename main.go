@@ -9,8 +9,6 @@ import (
 	"os/exec"
 	"strings"
 	"time"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 // Repos is a struct representing a JSON configuration repo obj
@@ -109,12 +107,10 @@ func main() {
 			}
 			for _, branch := range repo.Branches {
 				// setup remote branch tracking
-				output, _ := commandWrapper("git", []string{"checkout", "-b", branch, "remotes/" + repo.Source.Name + "/", branch})
-				spew.Dump(output)
-				output, _ = commandWrapper("git", []string{"checkout", branch})
-				spew.Dump(output)
+				commandWrapper("git", []string{"checkout", "-b", branch, "remotes/" + repo.Source.Name + "/", branch})
+				commandWrapper("git", []string{"checkout", branch})
 				// sync the repos
-				output, _ = commandWrapper("git", []string{"pull", repo.Source.Name, branch})
+				output, _ := commandWrapper("git", []string{"pull", repo.Source.Name, branch})
 				if !strings.Contains(output, "up-to-date") {
 					fmt.Println("Picked up changes from " + repo.Source.URL)
 					fmt.Println(output)
