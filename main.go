@@ -110,20 +110,23 @@ func main() {
 				commandWrapper("git", []string{"checkout", "-b", branch, "remotes/" + repo.Source.Name + "/", branch})
 				commandWrapper("git", []string{"checkout", branch})
 				// sync the repos
+				pushToMirrors := false
 				output, _ := commandWrapper("git", []string{"pull", repo.Source.Name, branch})
 				if !strings.Contains(output, "up-to-date") {
 					fmt.Println("Picked up changes from " + repo.Source.URL)
 					fmt.Println(output)
+					pushToMirrors = true
 				}
-				for i := range mirrors {
-					mirror := mirrors[i]
-					output, err := commandWrapper("git", []string{"push", mirror.Name, branch})
-					if !strings.Contains(err, "up-to-date") {
-						fmt.Println("Pushing changes from " + repo.Source.Name + " out to " + mirror.Name)
-						fmt.Println(output, err)
+				if pushToMirrors {
+					for i := range mirrors {
+						mirror := mirrors[i]
+						output, err := commandWrapper("git", []string{"push", mirror.Name, branch})
+						if !strings.Contains(err, "up-to-date") {
+							fmt.Println("Pushing changes from " + repo.Source.Name + " out to " + mirror.Name)
+							fmt.Println(output, err)
+						}
 					}
 				}
-				//fmt.Println(configuration.Repos[i])
 			}
 		}
 		time.Sleep(time.Duration(configuration.Interval) * time.Second)
